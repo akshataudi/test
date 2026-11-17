@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chai & Bites Corner - Menu</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background: #f8f9fa; color: #222; padding-bottom: 40px; }
+    header { background: #1e293b; color: #fff; padding: 20px 16px; text-align: center; }
+    header h1 { font-size: 1.4rem; margin-bottom: 4px; }
+    header p { font-size: 0.85rem; color: #cbd5e1; }
+    
+    /* Dynamic Daily Offer Banner */
+    #offer-banner {
+      background: linear-gradient(90deg, #f59e0b, #d97706);
+      color: #fff; padding: 12px 16px; text-align: center;
+      font-weight: 600; font-size: 0.9rem; display: none;
+    }
+
+    /* Filter Buttons */
+    .filters {
+      display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px;
+      background: #fff; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0;
+    }
+    .filter-btn {
+      border: 1px solid #cbd5e1; background: #fff; padding: 6px 14px;
+      border-radius: 20px; font-size: 0.85rem; white-space: nowrap; cursor: pointer;
+    }
+    .filter-btn.active { background: #1e293b; color: #fff; border-color: #1e293b; }
+
+    /* Menu Cards */
+    .menu-list { padding: 16px; display: flex; flex-direction: column; gap: 12px; max-width: 600px; margin: auto; }
+    .card {
+      background: #fff; border-radius: 12px; padding: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;
+    }
+    .badge {
+      display: inline-block; font-size: 0.7rem; font-weight: 700;
+      padding: 2px 8px; border-radius: 6px; margin-bottom: 6px;
+    }
+    .bestseller { background: #fef3c7; color: #b45309; }
+    .veg-dot { color: #16a34a; font-weight: bold; margin-right: 4px; }
+    .item-title { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+    .item-desc { font-size: 0.8rem; color: #64748b; }
+    .price { font-weight: 700; font-size: 1.05rem; color: #0f172a; margin-left: 12px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Chai & Bites Corner</h1>
+    <p>Freshly Made • Scan & Order at Counter</p>
+  </header>
+
+  <!-- Automatically shows today's offer -->
+  <div id="offer-banner"></div>
+
+  <!-- Interactive Filter Bar -->
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterMenu('all', this)">All Items</button>
+    <button class="filter-btn" onclick="filterMenu('bestseller', this)">🔥 Bestsellers</button>
+    <button class="filter-btn" onclick="filterMenu('chai', this)">☕ Chai & Coffee</button>
+    <button class="filter-btn" onclick="filterMenu('snacks', this)">🥪 Snacks</button>
+  </div>
+
+  <div class="menu-list" id="menu-container"></div>
+
+  <script>
+    // 1. SET DAY-SPECIFIC OFFERS (0 = Sunday, 1 = Monday ... 6 = Saturday)
+    const DAILY_OFFERS = {
+      0: "🎉 Sunday Special: Free Masala Chai on orders above ₹199!",
+      2: "🔥 Tuesday Deal: Buy 2 Paneer Sandwiches, Get 1 Cold Coffee Free!",
+      5: "🥳 Friday Evening Offer: 15% OFF on all Combos!"
+    };
+
+    // 2. EDIT CAFÉ MENU ITEMS HERE (bestseller: true pins them to the top)
+    const MENU_DATA = [
+      { name: "Kulhad Masala Chai", price: "₹30", category: "chai", bestseller: true, desc: "Brewed with fresh ginger, cardamom & aromatic spices" },
+      { name: "Tandoori Paneer Grilled Sandwich", price: "₹90", category: "snacks", bestseller: true, desc: "Loaded with spiced paneer, mint chutney & veggies" },
+      { name: "Classic Cold Coffee", price: "₹70", category: "chai", bestseller: true, desc: "Thick, creamy blended coffee topped with choco powder" },
+      { name: "Peri-Peri Crispy Fries", price: "₹65", category: "snacks", bestseller: false, desc: "Golden fries tossed in tangy peri-peri seasoning" },
+      { name: "Bun Maska", price: "₹40", category: "snacks", bestseller: false, desc: "Soft toasted bun slathered with fresh white butter" }
+    ];
+
+    // Show today's offer automatically
+    const today = new Date().getDay();
+    const banner = document.getElementById("offer-banner");
+    if (DAILY_OFFERS[today]) {
+      banner.textContent = DAILY_OFFERS[today];
+      banner.style.display = "block";
+    }
+
+    // Sort so Bestsellers ALWAYS appear first
+    const sortedMenu = [...MENU_DATA].sort((a, b) => b.bestseller - a.bestseller);
+
+    function renderMenu(items) {
+      const container = document.getElementById("menu-container");
+      container.innerHTML = items.map(item => `
+        <div class="card">
+          <div>
+            ${item.bestseller ? '<span class="badge bestseller">🔥 BESTSELLER</span><br>' : ''}
+            <div class="item-title"><span class="veg-dot">●</span>${item.name}</div>
+            <div class="item-desc">${item.desc}</div>
+          </div>
+          <div class="price">${item.price}</div>
+        </div>
+      `).join("");
+    }
+
+    function filterMenu(filter, btn) {
+      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      if (filter === "all") return renderMenu(sortedMenu);
+      if (filter === "bestseller") return renderMenu(sortedMenu.filter(i => i.bestseller));
+      renderMenu(sortedMenu.filter(i => i.category === filter));
+    }
+
+    renderMenu(sortedMenu);
+  </script>
+</body>
+</html>
