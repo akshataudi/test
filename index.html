@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chai & Bites Corner - Menu</title>
+  <title>The Love Bite - Menu</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
     body { background: #f8f9fa; color: #222; padding-bottom: 40px; }
@@ -49,7 +49,7 @@
 <body>
 
   <header>
-    <h1>Chai & Bites Corner</h1>
+    <h1>The Love Bite</h1>
     <p>Freshly Made • Scan & Order at Counter</p>
   </header>
 
@@ -60,7 +60,7 @@
   <div class="filters">
     <button class="filter-btn active" onclick="filterMenu('all', this)">All Items</button>
     <button class="filter-btn" onclick="filterMenu('bestseller', this)">🔥 Bestsellers</button>
-    <button class="filter-btn" onclick="filterMenu('chai', this)">☕ Chai & Coffee</button>
+    <button class="filter-btn" onclick="filterMenu('chai', this)">☕ Coffee</button>
     <button class="filter-btn" onclick="filterMenu('snacks', this)">🥪 Snacks</button>
   </div>
 
@@ -69,14 +69,14 @@
   <script>
     // 1. SET DAY-SPECIFIC OFFERS (0 = Sunday, 1 = Monday ... 6 = Saturday)
     const DAILY_OFFERS = {
-      0: "🎉 Sunday Special: Free Masala Chai on orders above ₹199!",
+      0: "🎉 Sunday Special: Free Classic Fries on orders above ₹499!",
       2: "🔥 Tuesday Deal: Buy 2 Paneer Sandwiches, Get 1 Cold Coffee Free!",
       5: "🥳 Friday Evening Offer: 15% OFF on all Combos!"
     };
 
     // 2. EDIT CAFÉ MENU ITEMS HERE (bestseller: true pins them to the top)
     const MENU_DATA = [
-      { name: "Kulhad Masala Chai", price: "₹30", category: "chai", bestseller: true, desc: "Brewed with fresh ginger, cardamom & aromatic spices" },
+      { name: "Aloo Tikki Cheese Burger", price: "₹99", category: "Burger", bestseller: true, desc: "Crispy aloo patty with home made sauce, veggies and liquid cheese" },
       { name: "Tandoori Paneer Grilled Sandwich", price: "₹90", category: "snacks", bestseller: true, desc: "Loaded with spiced paneer, mint chutney & veggies" },
       { name: "Classic Cold Coffee", price: "₹70", category: "chai", bestseller: true, desc: "Thick, creamy blended coffee topped with choco powder" },
       { name: "Peri-Peri Crispy Fries", price: "₹65", category: "snacks", bestseller: false, desc: "Golden fries tossed in tangy peri-peri seasoning" },
